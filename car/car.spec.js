@@ -50,6 +50,22 @@ describe('Car class', () => {
     test('new cars start with odameter at zero', () => {
         expect(prius).toHaveProperty('odometer', 0)
     })
+    test('cars have a drive method', () => {
+        expect(prius.drive).toBeDefined()
+        expect(prius.drive).toBe(Car.prototype.drive)
+    })
+    test('drive method takes distance and increases odometer by that distance', () => {
+        prius.drive(10)
+        expect(prius.odometer).toBe(10)
+        prius.drive(5)
+        expect(prius.odometer).toBe(15)
+    })
+    test('driveAsync method resolves the updated odometer', async () => {
+        let updatedOdometer = await prius.driveAsync(7)
+        expect(updatedOdometer).toBe(7)
+        updatedOdometer = await prius.driveAsync(5)
+        expect(updatedOdometer).toBe(12)
+    })
 })
 //all of the expect cases have a value of 5 so for that, the test is passing. If even ONE of them had the wrong value in the toBe area, it would fail.
 //after adding @types/jest to the project as a dev dependency, you can press ctrl and spacebar to see suggestions of the different things you can use when writing jest tests!
@@ -59,3 +75,6 @@ describe('Car class', () => {
 //on THIRD COMMENT, this passing because car is a class/constructor and ALL constructors are FUnctions at the end of the day!
 //under the make and model test, most of the are doing the exact same thing! The only TRULY NECCESSARY LINES ARE: the setup(const prius = new Car('toyota', prius)), and the first 2 test after where we are checking that the make and model properties actually exist!(expect(prius).toHaveProperty('make', 'toyota') AND expect(prius).toHaveProperty('model', 'prius'))
 // Had this test inside make and model test at first: expect(prius).toEqual({ make: 'toyota', model: 'prius' }). After adding the odometer part, this test broke because it was no longer EQUAL to that! the odometer property was not present in the object! changed it to expect(prius).toMatchObject({ make: 'toyota, model: 'prius })
+//to make a todo: test.todo('drive method return the updated odometer')! It makes it as a reminded that we intend to make this test, BUT doesn't make it a false positive or a fail
+//can mark a test by test.only to make it where you ONLY focus on passing that one test and skip the rest!!
+//can skip a certain test by using test.skip on the test
