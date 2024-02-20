@@ -30,14 +30,25 @@ describe('foo function', () => {
     })
 })
 describe('Car class', () => {
+    let prius
+    beforeEach(() => {
+        prius = new Car('toyota', 'prius')
+    })
     test('it is defined', () => {
         expect(Car).toBeDefined()
         expect(Car).toBeInstanceOf(Function) /* *** */
     })
     test('has model and make', () => {
-        const prius = new Car('toyota', 'prius')
         expect(prius).toHaveProperty('make')
         expect(prius).toHaveProperty('model')
+        expect(prius.make).toBeDefined()
+        expect(prius.model).toBeDefined()
+        expect(prius.make).toBe('toyota')
+        expect(prius.model).toBe('prius')
+        expect(prius).toMatchObject({ make: 'toyota', model: 'prius' })
+    })
+    test('new cars start with odameter at zero', () => {
+        expect(prius).toHaveProperty('odometer', 0)
     })
 })
 //all of the expect cases have a value of 5 so for that, the test is passing. If even ONE of them had the wrong value in the toBe area, it would fail.
@@ -46,3 +57,5 @@ describe('Car class', () => {
 //BUT expect(oo).toBe(ooo) is TRUE! because ooo is pointing to oo in memory(SEE FIRST COMMENT!)
 //on SECOND COMMENT toEqual passes this test becuase these objects EQUAL the same thing, but toBe would fail because are in two different points of memory, therefore NOT THE SAME THING
 //on THIRD COMMENT, this passing because car is a class/constructor and ALL constructors are FUnctions at the end of the day!
+//under the make and model test, most of the are doing the exact same thing! The only TRULY NECCESSARY LINES ARE: the setup(const prius = new Car('toyota', prius)), and the first 2 test after where we are checking that the make and model properties actually exist!(expect(prius).toHaveProperty('make', 'toyota') AND expect(prius).toHaveProperty('model', 'prius'))
+// Had this test inside make and model test at first: expect(prius).toEqual({ make: 'toyota', model: 'prius' }). After adding the odometer part, this test broke because it was no longer EQUAL to that! the odometer property was not present in the object! changed it to expect(prius).toMatchObject({ make: 'toyota, model: 'prius })
