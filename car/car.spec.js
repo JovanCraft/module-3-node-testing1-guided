@@ -84,6 +84,3 @@ describe('Car class', () => {
 
 
 
-
-
-
